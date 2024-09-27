@@ -1,9 +1,11 @@
-# search.py
-def search_keyword(text, keyword):
+def search_and_highlight_keyword(text, keyword):
     """
-    Search for a keyword in the extracted text.
+    Search for a keyword in the extracted text and highlight it.
     """
-    if keyword in text:
-        return True
-    else:
-        return False
+    if keyword.lower() in text.lower():
+        # Highlight all occurrences of the keyword
+        highlighted_text = text.replace(
+            keyword, f'<span style="background-color: red">{keyword}</span>'
+        )
+        return highlighted_text
+    return None
