@@ -1,31 +1,23 @@
 import streamlit as st
 from PIL import Image
-import pytesseract
+from ocr import extract_text
+from search import search_and_highlight_keyword
 
-# If running in a local environment, you would set the path to Tesseract
-# For cloud deployment, you might not need this line.
-pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'  # Update for the cloud environment
+# Upload an image
+uploaded_image = st.file_uploader("Upload Image", type=["png", "jpg", "jpeg"])
 
-st.title('OCR for Hindi and English Text')
-
-# File uploader
-uploaded_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
-
-if uploaded_file:
-    img = Image.open(uploaded_file)
-    st.image(img, caption='Uploaded Image', use_column_width=True)
-
-    # Perform OCR
-    text = pytesseract.image_to_string(img, lang='eng+hin')
-
-    # Display extracted text
-    st.write("Extracted Text:")
-    st.text_area("OCR Output", text)
-
+if uploaded_image:
+    image = Image.open(uploaded_image)
+    
+    # Extract text
+    text = extract_text(image)
+    st.text_area("Extracted Text", text, height=300)
+    
     # Keyword search
-    keyword = st.text_input("Enter a keyword to search")
+    keyword = st.text_input("Enter keyword to search")
     if keyword:
-        if keyword.lower() in text.lower():
-            st.success(f"Keyword '{keyword}' found in the text!")
+        highlighted_text = search_and_highlight_keyword(text, keyword)
+        if highlighted_text:
+            st.markdown(highlighted_text, unsafe_allow_html=True)  # Display highlighted text
         else:
-            st.error(f"Keyword '{keyword}' not found.")
+            st.warning("Keyword not found.")
