@@ -1,3 +1,4 @@
 streamlit
 easyocr
-pillow
+Pillow
+numpy
