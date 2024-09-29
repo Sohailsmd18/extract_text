@@ -1,5 +1,5 @@
 The app is built using Streamlit, and the OCR functionality is powered by EasyOCR.
-
+Deploy Linl : https://sohailsmd18-extract-text-app-d1rd2e.streamlit.app/
 Features
 Upload images in PNG, JPG, or JPEG formats.
 Extract text from images using OCR.
